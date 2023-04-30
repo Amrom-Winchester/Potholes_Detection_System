@@ -22,16 +22,20 @@ def predict_pothole(currentFrame):
     currentFrame = cv2.resize(currentFrame,(size,size))
     currentFrame = currentFrame.reshape(1,size,size,1).astype('float')
     currentFrame = currentFrame/255
-    prob = loadedModel.predict_proba(currentFrame)
+    # predict_prob=loadedModel.predict(currentFrame)
+    # prob = loadedModel.predict_proba(currentFrame)
+    prob = loadedModel.predict(currentFrame)
+    # predict_classes=np.argmax(prob,axis=1)
     max_prob = max(prob[0])
     if(max_prob>.90):
-        return loadedModel.predict_classes(currentFrame) , max_prob
+        predict_x=loadedModel.predict(currentFrame) 
+        return np.argmax(predict_x,axis=1) , max_prob
     return "none",0
 
 # main function
 if __name__ == '__main__':
 
-    loadedModel = load_model('E:/Major 8sem/Model Files/full_model.h5')
+    loadedModel = load_model('D:/Pepcoding/ML/PotholeDetectionSystem/pothole-detection-system-using-convolution-neural-networks-master/pothole-detection-system-using-convolution-neural-networks-master/Real-time Files/full_model.h5')
 
     camera = cv2.VideoCapture(0)
 
